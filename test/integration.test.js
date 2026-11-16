@@ -45,9 +45,16 @@ test("Team Huib begint met zes vragen", async () => {
   assert.equal(data.total, 6);
   assert.match(data.question.text, /welk land/i);
 });
-test("Team Naomy is als binnenkort beschikbaar gemarkeerd", async () => {
-  const { data } = await request("/api/state?team=naomy");
-  assert.equal(data.comingSoon, true);
+test("Team Naomy heeft vijf vragen met de opgegeven juiste antwoorden", async () => {
+  const { response, data } = await request("/api/state?team=naomy");
+  assert.equal(response.status, 200);
+  assert.equal(data.total, 5);
+  assert.equal(data.question.options[data.question.correct], "Dierenarts");
+  const answers = [2, 0, 2, 1, 1];
+  for (const answer of answers) {
+    const result = await request("/api/answer", { method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({team:"naomy",answer}) });
+    assert.equal(result.data.correct, true);
+  }
 });
 test("een fout antwoord activeert een cooldown van 30 minuten", async () => {
   const { data } = await request("/api/answer", { method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({team:"huib",answer:0}) });
