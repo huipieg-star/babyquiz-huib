@@ -24,11 +24,11 @@ const QUIZZES = {
   naomy: {
     title: "Team Naomy",
     questions: [
-      { title: "Later als ik groot ben", text: "Wat wilde Naomy vroeger worden?", options: ["Dokter", "Actrice", "Dierenarts", "Lerares"], correct: 2 },
-      { title: "De oude knuffel", text: "Hoe heet de knuffel die Naomy als baby al had?", options: ["Nijltje", "Nijntje", "Pippi", "Pluis"], correct: 0 },
-      { title: "Op reis", text: "Waar is Naomy nog nooit geweest?", options: ["Frankrijk", "Italië", "Spanje", "Turkije"], correct: 2 },
-      { title: "Disneyfavoriet", text: "Wat is Naomy's favoriete Disneyfilm?", options: ["Lion King", "Brother Bear", "Winnie the Pooh", "Tangled"], correct: 1 },
-      { title: "Lust ik niet!", text: "Wat lust Naomy niet?", options: ["Spruitjes", "Paprika", "Andijvie", "Champignons"], correct: 1 }
+      { title: "Ambitie", text: "Wat wilde Naomy vroeger worden?", options: ["Dokter", "Actrice", "Dierenarts", "Lerares"], correct: 2, fact: "Naomy was en is gek op dieren en wilde ze graag helpen als ze ziek waren." },
+      { title: "Jonge jaren", text: "Hoe heet de knuffel die Naomy als baby al had?", options: ["Nijltje", "Nijntje", "Pippi", "Pluis"], correct: 0, fact: "Nijltje kreeg Naomy toen ze baby was en deze heeft ze nog steeds. Al heeft die al menig operatie ondergaan en kijkt hij een beetje scheel." },
+      { title: "Vakantie", text: "Waar is Naomy nog nooit geweest?", options: ["Frankrijk", "Italië", "Spanje", "Turkije"], correct: 2, fact: "Als kind ging Naomy altijd naar Frankrijk. Met pap en mam ook nog naar Turkije geweest. Later nog een keer in Italië beland. Spanje heeft ze echter nog niet bezocht." },
+      { title: "Disney fan", text: "Wat is Naomy's favoriete Disneyfilm?", options: ["Lion King", "Brother Bear", "Winnie the Pooh", "Tangled"], correct: 1, fact: "Brother Bear is de favoriete film. Deze laat heel mooi de relatie zien tussen de broers en de verzorgende rol die Kenai op zich neemt." },
+      { title: "Eten :p", text: "Wat lust Naomy niet?", options: ["Spruitjes", "Champignons", "Andijvie", "Paprika"], correct: 3, fact: "Naomy heeft paprika nooit lekker gevonden. Spruitjes en champignons heeft ze leren eten. Andijvie was een van haar favoriete babyvoedsel in potjes." }
     ],
     prediction: { title: "De grote voorspelling 💗", text: "Wat denken jullie dat Huib en Naomy verwachten?", options: ["Een jongen 💙", "Een meisje 💗"] }
   }
