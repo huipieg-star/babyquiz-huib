@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8e9ed"><title>De grote babyquiz</title>
+<style>
+:root{--ink:#29232a;--muted:#756d76;--pink:#f3dce4;--rose:#b85e7d;--cream:#fffaf6;--line:#eadfe3}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#f9edf0,#f7f3ed 55%,#edf1f3);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);min-height:100vh;padding:22px}
+main{max-width:620px;margin:0 auto;min-height:calc(100vh - 44px);display:flex;align-items:center}
+.panel{width:100%;background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.9);border-radius:28px;padding:clamp(24px,6vw,42px);box-shadow:0 18px 60px #62434b16}
+.kicker{text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:800;color:var(--rose)}
+h1{font-size:clamp(32px,8vw,48px);line-height:1.05;margin:12px 0}h2{font-size:25px;line-height:1.2;margin:10px 0 18px}
+p{color:var(--muted);line-height:1.55}.choices{display:grid;gap:12px;margin:24px 0}
+button{font:inherit;cursor:pointer}.team,.option,.primary{border:1px solid var(--line);background:var(--cream);border-radius:16px;padding:17px 18px;text-align:left;color:var(--ink);font-weight:650;transition:.15s}
+.team:hover,.option:hover{border-color:var(--rose);transform:translateY(-1px);background:#fff5f8}
+.primary{display:block;width:100%;text-align:center;background:var(--rose);color:white;border:0;margin-top:18px}
+.option{display:flex;align-items:center;gap:13px;width:100%}.letter{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:var(--pink);color:#744157;font-weight:800;flex:none}
+.option:disabled{opacity:.65;cursor:default}.progress{height:7px;border-radius:20px;background:#f0e8eb;overflow:hidden;margin:18px 0 25px}.bar{height:100%;background:var(--rose);width:0;transition:width .25s}
+.fact,.notice{padding:15px 17px;background:#fbf1f4;border-radius:15px;margin-top:16px;color:#654253;line-height:1.5}
+.notice{background:#f4f1ec;color:#51484c}.small{font-size:13px;color:var(--muted)}.hidden{display:none!important}.emoji{font-size:40px;margin-bottom:8px}
+@media(max-width:420px){body{padding:12px}.panel{border-radius:22px;padding:24px 20px}}
+</style></head>
+<body><main><section class="panel" id="app">
+<div class="kicker">Een speciale editie</div><div class="emoji">🍼</div><h1>De grote babyquiz</h1>
+<p>Wie kent Huib en Naomy het beste? Kies je team en test je kennis. Succes! 💗</p>
+<div class="choices"><button class="team" data-team="huib">💙 Speel voor Team Huib</button><button class="team" data-team="naomy">💗 Speel voor Team Naomy</button></div>
+<p class="small">Geen naam of account nodig. Eén fout antwoord betekent 30 minuten pauze. Daarna mag je opnieuw beginnen.</p>
+</section></main>
+<script>
+const app=document.getElementById('app');let team='huib';let state=null;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function api(url,body){const r=await fetch(url,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});const d=await r.json();if(!r.ok)throw d;return d}
+function home(){app.innerHTML=`<div class="kicker">Een speciale editie</div><div class="emoji">🍼</div><h1>De grote babyquiz</h1><p>Wie kent Huib en Naomy het beste? Kies je team en test je kennis. Succes! 💗</p><div class="choices"><button class="team" data-team="huib">💙 Speel voor Team Huib</button><button class="team" data-team="naomy">💗 Speel voor Team Naomy</button></div><p class="small">Geen naam of account nodig. Eén fout antwoord betekent 30 minuten pauze. Daarna mag je opnieuw beginnen.</p>`;document.querySelectorAll('[data-team]').forEach(b=>b.onclick=()=>start(b.dataset.team))}
+async function start(t){team=t;try{state=await api('/api/state?team='+team);render()}catch(e){app.innerHTML='<h2>Oeps, er ging iets mis.</h2><button class="primary" onclick="location.reload()">Opnieuw</button>'}}
+function render(){
+if(state.comingSoon){app.innerHTML=`<div class="kicker">Binnenkort beschikbaar</div><h1>Team Naomy 💗</h1><p>De vragen voor Team Naomy worden nog samengesteld.</p><button class="primary" id="back">Terug naar start</button>`;document.getElementById('back').onclick=home;return}
+if(state.cooldownUntil>Date.now()){const mins=Math.ceil((state.cooldownUntil-Date.now())/60000);app.innerHTML=`<div class="emoji">⏳</div><div class="kicker">${esc(state.title)}</div><h1>Even pauze!</h1><p>Helaas, een fout antwoord. Je kunt over <strong>${mins} minuten</strong> opnieuw beginnen.</p><div class="notice">Je hoeft niets te doen. Na de wachttijd kun je de quiz opnieuw starten.</div><button class="primary" id="back">Terug naar start</button>`;document.getElementById('back').onclick=home;return}
+if(state.complete){app.innerHTML=`<div class="emoji">🎉</div><div class="kicker">${esc(state.title)}</div><h1>Bedankt voor je voorspelling!</h1><p>Je keuze is opgeslagen. Alle vragen zijn goed beantwoord. Houd de onthulling in de gaten! 💗</p><button class="primary" id="back">Terug naar start</button>`;document.getElementById('back').onclick=home;return}
+if(state.index<state.total){const q=state.question;app.innerHTML=`<div class="kicker">${esc(state.title)} · Vraag ${state.index+1} van ${state.total}</div><div class="progress"><div class="bar" style="width:${state.index/state.total*100}%"></div></div><h2>${esc(q.title)}</h2><p>${esc(q.text)}</p><div class="choices">${q.options.map((o,i)=>`<button class="option" data-answer="${i}"><span class="letter">${'ABCD'[i]}</span>${esc(o)}</button>`).join('')}</div><p class="small">Let op: je mag geen fouten maken. Bij een fout moet je 30 minuten wachten.</p>`;document.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>answer(Number(b.dataset.answer)));return}
+const q=state.predictionQuestion;app.innerHTML=`<div class="kicker">${esc(state.title)} · Alle vragen goed!</div><div class="emoji">💗</div><h2>${esc(q.title)}</h2><p>${esc(q.text)}</p><div class="choices">${q.options.map((o,i)=>`<button class="option" data-prediction="${i}">${esc(o)}</button>`).join('')}</div><p class="small">Dit is een voorspelling: er is geen goed of fout antwoord. Je kunt hier niet op zakken. 😉</p>`;document.querySelectorAll('[data-prediction]').forEach(b=>b.onclick=()=>prediction(Number(b.dataset.prediction)))}
+async function answer(a){document.querySelectorAll('[data-answer]').forEach(b=>b.disabled=true);try{const r=await api('/api/answer',{team,answer:a});if(!r.correct){state.cooldownUntil=r.cooldownUntil;render();return}state=await api('/api/state?team='+team);render();if(r.fact){const p=document.createElement('div');p.className='fact';p.textContent='💡 '+r.fact;app.querySelector('.choices')?.after(p)}}catch(e){if(e.cooldownUntil){state.cooldownUntil=e.cooldownUntil;render()}else alert(e.error||'Er ging iets mis.')}}
+async function prediction(a){try{await api('/api/prediction',{team,answer:a});state=await api('/api/state?team='+team);render()}catch(e){alert(e.error||'Er ging iets mis.')}}
+home();
+</script></body></html>
