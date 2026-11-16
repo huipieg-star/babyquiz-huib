@@ -23,9 +23,14 @@ const QUIZZES = {
   },
   naomy: {
     title: "Team Naomy",
-    questions: [],
-    prediction: { title: "De grote voorspelling 💗", text: "Wat denken jullie dat Huib en Naomy verwachten?", options: ["Een jongen 💙", "Een meisje 💗"] },
-    comingSoon: true
+    questions: [
+      { title: "Later als ik groot ben", text: "Wat wilde Naomy vroeger worden?", options: ["Dokter", "Actrice", "Dierenarts", "Lerares"], correct: 2 },
+      { title: "De oude knuffel", text: "Hoe heet de knuffel die Naomy als baby al had?", options: ["Nijltje", "Nijntje", "Pippi", "Pluis"], correct: 0 },
+      { title: "Op reis", text: "Waar is Naomy nog nooit geweest?", options: ["Frankrijk", "Italië", "Spanje", "Turkije"], correct: 2 },
+      { title: "Disneyfavoriet", text: "Wat is Naomy's favoriete Disneyfilm?", options: ["Lion King", "Brother Bear", "Winnie the Pooh", "Tangled"], correct: 1 },
+      { title: "Lust ik niet!", text: "Wat lust Naomy niet?", options: ["Spruitjes", "Paprika", "Andijvie", "Champignons"], correct: 1 }
+    ],
+    prediction: { title: "De grote voorspelling 💗", text: "Wat denken jullie dat Huib en Naomy verwachten?", options: ["Een jongen 💙", "Een meisje 💗"] }
   }
 };
 
