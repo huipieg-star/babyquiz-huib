@@ -50,7 +50,7 @@ test("Team Naomy heeft vijf vragen met de opgegeven juiste antwoorden", async ()
   assert.equal(response.status, 200);
   assert.equal(data.total, 5);
   assert.equal(data.question.text, "Wat wilde Naomy vroeger worden?");
-  const answers = [2, 0, 2, 1, 1];
+  const answers = [2, 0, 2, 1, 3];
   for (const answer of answers) {
     const result = await request("/api/answer", { method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({team:"naomy",answer}) });
     assert.equal(result.data.correct, true);
