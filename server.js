@@ -136,7 +136,7 @@ const server = http.createServer(async (req, res) => {
   fs.readFile(file, (err, data) => {
     if (err) return send(res, 404, { error: "Bestand niet gevonden" });
     const ext = path.extname(file);
-    const types = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8" };
+    const types = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".webp": "image/webp" };
     res.writeHead(200, { "Content-Type": types[ext] || "application/octet-stream" }); res.end(data);
   });
 });
