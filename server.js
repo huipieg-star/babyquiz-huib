@@ -10,7 +10,7 @@ const COOLDOWN_MS = 10 * 60 * 1000;
 
 const QUIZZES = {
   huib: {
-    title: "Team Huib",
+    title: "Huib",
     questions: [
       { title: "Wonen in het buitenland", text: "In welk ander land dan Nederland heeft Huib vroeger gewoond?", options: ["België", "Duitsland", "Frankrijk", "Luxemburg"], correct: 2, fact: "Huib woonde daar van zijn 1e tot zijn 7e." },
       { title: "De LP naast de tv", text: "Van welke artiest heeft Huib een LP naast zijn tv staan?", options: ["Drake", "Lange Frans", "J. Cole", "André Hazes Jr."], correct: 2, fact: "Huib heeft de plaat maar één keer beluisterd. 😂" },
@@ -22,7 +22,7 @@ const QUIZZES = {
     prediction: { title: "De grote voorspelling 💗", text: "Wat denken jullie dat Huib en Naomy verwachten?", options: ["Een jongen 💙", "Een meisje 💗"] }
   },
   naomy: {
-    title: "Team Naomy",
+    title: "Naomy",
     questions: [
       { title: "Ambitie", text: "Wat wilde Naomy vroeger worden?", options: ["Dokter", "Actrice", "Dierenarts", "Lerares"], correct: 2, fact: "Naomy was en is gek op dieren en wilde ze graag helpen als ze ziek waren." },
       { title: "Jonge jaren", text: "Hoe heet de knuffel die Naomy al heeft sinds ze een baby was?", options: ["Nijltje", "Nijntje", "Pippi", "Pluis"], correct: 0, fact: "Naomy kreeg Nijltje toen ze nog een baby was en heeft hem nog steeds. Inmiddels heeft hij al heel wat operaties ondergaan en kijkt hij een beetje scheel. 😂" },
