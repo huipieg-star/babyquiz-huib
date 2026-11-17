@@ -6,7 +6,7 @@ const crypto = require("node:crypto");
 const PORT = process.env.PORT || 3000;
 const DATA_FILE = process.env.DATA_FILE || path.join(__dirname, "data.json");
 const PUBLIC_DIR = path.join(__dirname, "public");
-const COOLDOWN_MS = 30 * 60 * 1000;
+const COOLDOWN_MS = 10 * 60 * 1000;
 
 const QUIZZES = {
   huib: {
@@ -107,7 +107,7 @@ const server = http.createServer(async (req, res) => {
         state.index = 0; state.prediction = null; state.complete = false;
         state.cooldownUntil = Date.now() + COOLDOWN_MS;
         db.sessions[sessionId][team] = state; saveData();
-        return send(res, 200, { correct: false, cooldownUntil: state.cooldownUntil, message: "Helaas, fout antwoord! Je kunt over 30 minuten opnieuw beginnen." });
+        return send(res, 200, { correct: false, cooldownUntil: state.cooldownUntil, message: "Helaas, fout antwoord! Je kunt over 10 minuten opnieuw beginnen." });
       }
       state.index += 1; db.sessions[sessionId][team] = state; saveData();
       return send(res, 200, { correct: true, finishedQuestions: state.index, total: quiz.questions.length, fact: question.fact || null });
