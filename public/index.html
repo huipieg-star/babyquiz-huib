@@ -40,15 +40,32 @@ button{font:inherit;cursor:pointer}.team,.option,.primary{border:1px solid var(-
 <p class="small">Geen naam of account nodig. Bij een fout antwoord moet je 10 minuten wachten. Daarna begin je opnieuw bij vraag 1.</p>
 </section></main>
 <script>
-const app=document.getElementById('app');let team='huib';let state=null;
+const app=document.getElementById('app');let team='huib';let state=null;let cooldownTimer=null;
+function stopCooldownTimer(){if(cooldownTimer!==null){clearInterval(cooldownTimer);cooldownTimer=null}}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function api(url,body){const r=await fetch(url,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});const d=await r.json();if(!r.ok)throw d;return d}
-function home(){app.className="panel home-screen";app.innerHTML=`<div class="kicker">Een speciale editie</div><img class="bears" src="/babyquiz-gender-bears.webp?v=3" alt="Twee teddyberen met een roze Girl- en blauwe Boy-ballon"><h1>Wie ken jij het beste? 🧸</h1><p>Kies over wie jij de quiz wilt spelen! Succes! 💗</p><div class="choices"><button class="team" data-team="huib">💙 Hoe goed ken jij Huib?</button><button class="team" data-team="naomy">💗 Hoe goed ken jij Naomy?</button></div><p class="small">Geen naam of account nodig. Bij een fout antwoord moet je 10 minuten wachten. Daarna begin je opnieuw bij vraag 1.</p>`;document.querySelectorAll('[data-team]').forEach(b=>b.onclick=()=>start(b.dataset.team))}
-async function start(t){team=t;try{state=await api('/api/state?team='+team);render()}catch(e){app.innerHTML='<h2>Oeps, er ging iets mis.</h2><button class="primary" onclick="location.reload()">Opnieuw</button>'}}
+function home(){stopCooldownTimer();app.className="panel home-screen";app.innerHTML=`<div class="kicker">Een speciale editie</div><img class="bears" src="/babyquiz-gender-bears.webp?v=3" alt="Twee teddyberen met een roze Girl- en blauwe Boy-ballon"><h1>Wie ken jij het beste? 🧸</h1><p>Kies over wie jij de quiz wilt spelen! Succes! 💗</p><div class="choices"><button class="team" data-team="huib">💙 Hoe goed ken jij Huib?</button><button class="team" data-team="naomy">💗 Hoe goed ken jij Naomy?</button></div><p class="small">Geen naam of account nodig. Bij een fout antwoord moet je 10 minuten wachten. Daarna begin je opnieuw bij vraag 1.</p>`;document.querySelectorAll('[data-team]').forEach(b=>b.onclick=()=>start(b.dataset.team))}
+async function start(t){stopCooldownTimer();team=t;try{state=await api('/api/state?team='+team);render()}catch(e){app.innerHTML='<h2>Oeps, er ging iets mis.</h2><button class="primary" onclick="location.reload()">Opnieuw</button>'}}
 function render(){
+stopCooldownTimer();
 app.className="panel";
 if(state.comingSoon){app.innerHTML=`<div class="kicker">Binnenkort beschikbaar</div><h1>Naomy 💗</h1><p>De vragen voor Team Naomy worden nog samengesteld.</p><button class="primary" id="back">Terug naar start</button>`;document.getElementById('back').onclick=home;return}
-if(state.cooldownUntil>Date.now()){const mins=Math.ceil((state.cooldownUntil-Date.now())/60000);app.innerHTML=`<div class="emoji">⏳</div><div class="kicker">${esc(state.title)}</div><h1>Even pauze!</h1><p>Helaas, een fout antwoord. Je kunt over <strong>${mins} minuten</strong> opnieuw beginnen.</p><div class="notice">Je hoeft niets te doen. Na de wachttijd kun je de quiz opnieuw starten.</div><button class="primary" id="back">Terug naar start</button>`;document.getElementById('back').onclick=home;return}
+if(state.cooldownUntil>Date.now()){
+app.innerHTML=`<div class="emoji">⏳</div><div class="kicker">${esc(state.title)}</div><h1>Even pauze!</h1><p>Je kunt opnieuw beginnen over:</p><h2 id="countdown" aria-live="off"></h2><div class="notice" id="cooldown-notice">Na de wachttijd kun je direct opnieuw beginnen bij vraag 1.</div><button class="primary hidden" id="retry">Opnieuw beginnen</button><button class="primary" id="back">Terug naar start</button>`;
+document.getElementById('back').onclick=home;
+document.getElementById('retry').onclick=()=>start(team);
+const updateCountdown=()=>{
+const remaining=Math.max(0,Math.ceil((state.cooldownUntil-Date.now())/1000));
+const el=document.getElementById('countdown');
+if(!el){stopCooldownTimer();return}
+if(remaining===0){
+stopCooldownTimer();el.textContent='Je mag weer spelen! 🎉';
+document.getElementById('cooldown-notice').textContent='De wachttijd is voorbij. Je kunt direct opnieuw beginnen.';
+document.getElementById('retry').classList.remove('hidden');
+}else{el.textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0')}
+};
+updateCountdown();if(state.cooldownUntil>Date.now())cooldownTimer=setInterval(updateCountdown,1000);
+return}
 if(state.complete){showReveal();return}
 if(state.index<state.total){const q=state.question;app.innerHTML=`<div class="kicker">${esc(state.title)} · Vraag ${state.index+1} van ${state.total}</div><div class="progress"><div class="bar" style="width:${state.index/state.total*100}%"></div></div><h2>${esc(q.title)}</h2><p>${esc(q.text)}</p><div class="choices">${q.options.map((o,i)=>`<button class="option" data-answer="${i}"><span class="letter">${'ABCD'[i]}</span>${esc(o)}</button>`).join('')}</div><p class="small">Let op: bij een fout antwoord moet je 10 minuten wachten. Daarna begin je opnieuw bij vraag 1.</p>`;document.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>answer(Number(b.dataset.answer)));return}
 const q=state.predictionQuestion;app.className="panel prediction-screen";app.innerHTML=`<img class="bears" src="/babyquiz-gender-bears.webp?v=4" alt="Twee teddyberen met een roze Girl- en blauwe Boy-ballon"><div class="kicker">${esc(state.title)} · Alle vragen goed!</div><h2>${esc(q.title)}</h2><p>${esc(q.text)}</p><div class="choices">${q.options.map((o,i)=>`<button class="option" data-prediction="${i}">${esc(o)}</button>`).join('')}</div><p class="small">Er is geen goed of fout antwoord. Kies wat jij denkt! 😉</p>`;document.querySelectorAll('[data-prediction]').forEach(b=>b.onclick=()=>prediction(Number(b.dataset.prediction)))}
