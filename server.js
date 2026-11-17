@@ -12,10 +12,10 @@ const QUIZZES = {
   huib: {
     title: "Team Huib",
     questions: [
-      { title: "Wonen in het buitenland", text: "In welk land naast Nederland heeft Huib vroeger gewoond?", options: ["België", "Duitsland", "Frankrijk", "Luxemburg"], correct: 2, fact: "Huib woonde daar van zijn 1e tot zijn 7e." },
+      { title: "Wonen in het buitenland", text: "In welk ander land dan Nederland heeft Huib vroeger gewoond?", options: ["België", "Duitsland", "Frankrijk", "Luxemburg"], correct: 2, fact: "Huib woonde daar van zijn 1e tot zijn 7e." },
       { title: "De LP naast de tv", text: "Van welke artiest heeft Huib een LP naast zijn tv staan?", options: ["Drake", "Lange Frans", "J. Cole", "André Hazes Jr."], correct: 2, fact: "Huib heeft de plaat maar één keer beluisterd. 😂" },
-      { title: "Favoriete eten", text: "Als Huib de rest van zijn leven nog maar één gerecht zou mogen eten, wat zou hij kiezen?", options: ["Pizza", "Pasta", "Sushi", "Steak"], correct: 1, fact: "Pasta is het enige gerecht dat Huib zelf maakt. 😂" },
-      { title: "Eerste auto", text: "Wat was de eerste auto van Huib?", options: ["Opel Corsa", "Suzuki Swift", "Peugeot 106", "Ford Fiesta"], correct: 2, fact: "Het blauwe gevaarte! 🚙😂" },
+      { title: "Favoriete gerecht", text: "Als Huib de rest van zijn leven nog maar één gerecht zou mogen eten, wat zou hij kiezen?", options: ["Pizza", "Pasta", "Sushi", "Steak"], correct: 1, fact: "Pasta is het enige gerecht dat Huib zelf maakt. 😂" },
+      { title: "Eerste auto", text: "Wat was Huibs eerste auto?", options: ["Opel Corsa", "Suzuki Swift", "Peugeot 106", "Ford Fiesta"], correct: 2, fact: "Het blauwe gevaarte! 🚙😂" },
       { title: "De hersenkraker 🧠", text: "Een vijver is bedekt met waterlelies. Iedere dag verdubbelt het aantal waterlelies. Na 48 dagen is de vijver helemaal bedekt. Op welke dag was de vijver voor de helft bedekt?", options: ["Dag 24", "Dag 36", "Dag 40", "Dag 47"], correct: 3 },
       { title: "Gameverslaving 🎮", text: "Welk spel heeft Huib het meest gespeeld?", options: ["Call of Duty: Warzone", "Rocket League", "Battlefield 5", "Fortnite"], correct: 1, fact: "Huib heeft er ongeveer 4000 uur in zitten en bakt er nog steeds niks van. 😂" }
     ],
@@ -25,11 +25,11 @@ const QUIZZES = {
     title: "Team Naomy",
     questions: [
       { title: "Ambitie", text: "Wat wilde Naomy vroeger worden?", options: ["Dokter", "Actrice", "Dierenarts", "Lerares"], correct: 2, fact: "Naomy was en is gek op dieren en wilde ze graag helpen als ze ziek waren." },
-      { title: "Jonge jaren", text: "Hoe heet de knuffel die Naomy als baby al had?", options: ["Nijltje", "Nijntje", "Pippi", "Pluis"], correct: 0, fact: "Nijltje kreeg Naomy toen ze baby was en deze heeft ze nog steeds. Al heeft die al menig operatie ondergaan en kijkt hij een beetje scheel." },
-      { title: "Vakantie", text: "Waar is Naomy nog nooit geweest?", options: ["Frankrijk", "Italië", "Spanje", "Turkije"], correct: 2, fact: "Als kind ging Naomy altijd naar Frankrijk. Met pap en mam ook nog naar Turkije geweest. Later nog een keer in Italië beland. Spanje heeft ze echter nog niet bezocht." },
-      { title: "Disney fan", text: "Wat is Naomy's favoriete Disneyfilm?", options: ["Lion King", "Brother Bear", "Winnie the Pooh", "Tangled"], correct: 1, fact: "Brother Bear is de favoriete film. Deze laat heel mooi de relatie zien tussen de broers en de verzorgende rol die Kenai op zich neemt." },
+      { title: "Jonge jaren", text: "Hoe heet de knuffel die Naomy al heeft sinds ze een baby was?", options: ["Nijltje", "Nijntje", "Pippi", "Pluis"], correct: 0, fact: "Naomy kreeg Nijltje toen ze nog een baby was en heeft hem nog steeds. Inmiddels heeft hij al heel wat operaties ondergaan en kijkt hij een beetje scheel. 😂" },
+      { title: "Vakantie", text: "Welk van deze landen heeft Naomy nog nooit bezocht?", options: ["Frankrijk", "Italië", "Spanje", "Turkije"], correct: 2, fact: "Als kind ging Naomy vaak naar Frankrijk. Met haar ouders is ze ook in Turkije geweest en later heeft ze Italië bezocht. Maar Spanje? Daar is ze nog nooit geweest!" },
+      { title: "Disneyfan", text: "Wat is Naomy's favoriete Disneyfilm?", options: ["Lion King", "Brother Bear", "Winnie the Pooh", "Tangled"], correct: 1, fact: "Brother Bear is haar favoriete Disneyfilm. Vooral de bijzondere band tussen de broers en de zorgzame rol van Kenai maken deze film zo mooi." },
       { title: "De hersenkraker 🧠", text: "Een vijver is bedekt met waterlelies. Iedere dag verdubbelt het aantal waterlelies. Na 48 dagen is de vijver helemaal bedekt. Op welke dag was de vijver voor de helft bedekt?", options: ["Dag 24", "Dag 36", "Dag 40", "Dag 47"], correct: 3 },
-      { title: "Eten :p", text: "Wat lust Naomy niet?", options: ["Spruitjes", "Champignons", "Andijvie", "Paprika"], correct: 3, fact: "Naomy heeft paprika nooit lekker gevonden. Spruitjes en champignons heeft ze leren eten. Andijvie was een van haar favoriete babyvoedsel in potjes." }
+      { title: "Eten", text: "Wat lust Naomy absoluut niet?", options: ["Spruitjes", "Champignons", "Andijvie", "Paprika"], correct: 3, fact: "Paprika heeft Naomy nooit lekker gevonden. Spruitjes en champignons heeft ze leren eten. En andijvie? Dat was vroeger zelfs een van haar favoriete babyhapjes!" }
     ],
     prediction: { title: "De grote voorspelling 💗", text: "Wat denken jullie dat Huib en Naomy verwachten?", options: ["Een jongen 💙", "Een meisje 💗"] }
   }
