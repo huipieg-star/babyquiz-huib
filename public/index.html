@@ -41,11 +41,14 @@ if(state.index<state.total){const q=state.question;app.innerHTML=`<div class="ki
 const q=state.predictionQuestion;app.className="panel prediction-screen";app.innerHTML=`<img class="bears" src="/babyquiz-gender-bears.webp?v=4" alt="Twee teddyberen met een roze Girl- en blauwe Boy-ballon"><div class="kicker">${esc(state.title)} · Alle vragen goed!</div><h2>${esc(q.title)}</h2><p>${esc(q.text)}</p><div class="choices">${q.options.map((o,i)=>`<button class="option" data-prediction="${i}">${esc(o)}</button>`).join('')}</div><p class="small">Dit is een voorspelling: er is geen goed of fout antwoord. Je kunt hier niet op zakken. 😉</p>`;document.querySelectorAll('[data-prediction]').forEach(b=>b.onclick=()=>prediction(Number(b.dataset.prediction)))}
 async function showReveal(){
 app.className="panel reveal-screen";
-app.innerHTML=`<div class="kicker">${esc(state.title)} · De onthulling</div><h1>Het grote moment! 🎉</h1><p>Je voorspelling is opgeslagen. Bekijk hieronder jullie onthulling!</p><p id="video-status" class="small">${team==='naomy'?'Video wordt geladen…':''}</p><video class="reveal-video" id="reveal-video" controls playsinline preload="metadata"></video><button class="primary" id="back">Terug naar start</button>`;
+app.innerHTML=`<div class="kicker">${esc(state.title)} · De onthulling</div><h1>Het grote moment! 🎉</h1><p>Je voorspelling is opgeslagen. Bekijk hieronder jullie onthulling!</p><p id="video-status" class="small">${team==='naomy'?'Video wordt geladen…':''}</p><video class="reveal-video" id="reveal-video" controls playsinline autoplay preload="auto"></video><button class="primary hidden" id="unmute">🔊 Geluid aanzetten</button><button class="primary" id="back">Terug naar start</button>`;
 document.getElementById('back').onclick=home;
 const video=document.getElementById('reveal-video');
 const status=document.getElementById('video-status');
-if(team==='huib'){video.src='/VID-20261117-WA0002.mp4';status.textContent='';return}
+const unmute=document.getElementById('unmute');
+unmute.onclick=async()=>{video.muted=false;unmute.classList.add('hidden');try{await video.play()}catch(e){status.textContent='Tik op afspelen om de video te starten.'}};
+async function autoPlayReveal(){try{video.muted=false;await video.play()}catch(e){try{video.muted=true;await video.play();unmute.classList.remove('hidden');status.textContent='De video speelt zonder geluid. Tik op Geluid aanzetten.'}catch(e2){video.muted=false;status.textContent='Tik op de afspeelknop om de onthulling te bekijken.'}}}
+if(team==='huib'){video.src='/VID-20261117-WA0002.mp4';status.textContent='';await autoPlayReveal();return}
 try{
 const chunks=[];
 for(let i=1;i<=4;i++){
@@ -57,6 +60,7 @@ const combined=new Blob(chunks,{type:'video/mp4'});
 if(!video.isConnected)return;
 video.src=URL.createObjectURL(combined);
 status.textContent='';
+await autoPlayReveal();
 }catch(err){if(status.isConnected)status.textContent='De video kon niet worden geladen. Probeer de pagina opnieuw te openen.';console.error(err)}
 }
 function showFact(fact){app.innerHTML=`<div class="emoji">💡</div><div class="kicker">Goed antwoord!</div><h1>Bonusfeitje</h1><div class="fact">${esc(fact)}</div><p>Weer wat geleerd over ${team==='huib'?'Huib':'Naomy'}! 😁</p><button class="primary" id="next">Volgende vraag</button>`;document.getElementById('next').onclick=render}
